@@ -10,6 +10,7 @@ on:
       - ecdetseg/engine/edgecrafter/criterion.py
       - ecdetseg/engine/edgecrafter/decoder.py
       - ecdetseg/tests/test_empty_denoising_regressions.py
+      - ecdetseg/tests/test_ecdet_full_train_smoke.py
   workflow_dispatch:
 
 permissions:
@@ -51,3 +52,8 @@ jobs:
       - name: Run empty-denoising regression tests
         working-directory: ecdetseg
         run: python -m pytest -v tests/test_empty_denoising_regressions.py
+
+      - name: Smoke-test real ECDet-S training on CPU
+        working-directory: ecdetseg
+        timeout-minutes: 15
+        run: python -m pytest -v tests/test_ecdet_full_train_smoke.py
