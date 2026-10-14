@@ -14,7 +14,12 @@ import argparse
 import contextlib
 import math
 import os
+import sys
 from datetime import timedelta
+from pathlib import Path
+
+# Support launching this file directly from tools/validation/.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import torch
 import torch.distributed as dist
