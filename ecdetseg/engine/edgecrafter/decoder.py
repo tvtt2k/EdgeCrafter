@@ -764,6 +764,8 @@ class ECTransformer(nn.Module):
             dn_out_masks, out_masks = self._split(out_masks, 2, s_idx)
             dn_out_corners, out_corners =self._split(out_corners, 2, s_idx)
             dn_out_refs, out_refs = self._split(out_refs, 2, s_idx)
+        else:
+            pred_segs = pre_segs
 
         if self.training:
             out = {'pred_logits': out_logits[-1], 'pred_boxes': out_bboxes[-1], 'pred_corners': out_corners[-1],
