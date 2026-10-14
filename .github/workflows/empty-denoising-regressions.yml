@@ -11,6 +11,7 @@ on:
       - ecdetseg/engine/edgecrafter/decoder.py
       - ecdetseg/tests/test_empty_denoising_regressions.py
       - ecdetseg/tests/test_ecdet_full_train_smoke.py
+      - ecdetseg/tools/validation/gpu_train_smoke.py
   workflow_dispatch:
 
 permissions:
@@ -57,3 +58,19 @@ jobs:
         working-directory: ecdetseg
         timeout-minutes: 15
         run: python -m pytest -v tests/test_ecdet_full_train_smoke.py
+
+      - name: Check GPU validation harness syntax
+        run: python -m py_compile ecdetseg/tools/validation/gpu_train_smoke.py
+
+      - name: Test GPU validation harness on CPU
+        working-directory: ecdetseg
+        timeout-minutes: 5
+        run: python tools/validation/gpu_train_smoke.py --mode single --device cpu --precision fp32
+
+      - name: Test distributed validation harness with CPU Gloo
+        working-directory: ecdetseg
+        timeout-minutes: 5
+        env:
+          TORCH_DISTRIBUTED_DEBUG: DETAIL
+        run: python -m torch.distributed.run --standalone --nproc_per_node=2 tools/validation/gpu_train_smoke.py --mode ddp --device cpu --precision fp32
+
