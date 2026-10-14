@@ -42,7 +42,7 @@ jobs:
         run: |
           python -m pip install \
             "numpy==2.0.1" "scipy==1.16.0" pytest \
-            PyYAML tensorboard pycocotools calflops transformers opencv-python-headless
+            PyYAML tensorboard pycocotools calflops 'transformers==4.46.3' opencv-python-headless
 
       - name: Verify CPU-only runtime
         run: |
